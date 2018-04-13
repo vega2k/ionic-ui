@@ -22,6 +22,9 @@ export class AddDataPage {
 
   constructor(public navCtrl: NavController,public sqlite:SQLite, public navParams: NavParams) {
     this.mode = this.navParams.get('mode');
+    if(this.mode === "edit") {
+      this.userData = this.navParams.get('user');
+    }
   }
 
   ionViewDidLoad() {

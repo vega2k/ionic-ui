@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, ItemSliding, NavController, NavParams} from 'ionic-angular';
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
 
 /**
@@ -17,7 +17,8 @@ import {SQLite, SQLiteObject} from '@ionic-native/sqlite';
 export class DatabasePage {
   private users : any;
 
-  constructor(public navCtrl: NavController,public sqlite:SQLite,public navParams: NavParams) {
+  constructor(public navCtrl: NavController,public sqlite:SQLite,
+              private alertCtrl : AlertController,public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -56,8 +57,47 @@ export class DatabasePage {
   addData() {
     this.navCtrl.push('addDataPage',{
       mode : "add",
-      profile : ''
+      user : ''
     });
   }
 
+  editData(item:ItemSliding,user){
+    item.close();
+    this.navCtrl.push('addDataPage',{
+      mode : "edit",
+      user : user
+    });
+  }
+
+  deleteData(item:ItemSliding,user) {
+    item.close();
+    let confirm = this.alertCtrl.create({
+      title: '삭제',
+      message: user.name + '을 삭제하시겠습니까?',
+      buttons: [
+        {
+          text: '아니요',
+          handler: () => {
+            console.log('아니요 clicked');
+          }
+        },
+        {
+          text: '예',
+          handler: () => {
+            console.log('예 clicked');
+            this.sqlite.create({
+              name:'mydb.db',
+              location : 'default'
+            }).then((db:SQLiteObject) => {
+              db.executeSql("delete from account where id=?",[user.id])
+                .then((result) => {
+                  this.getData();})
+                .catch((error) => {console.log(error);});
+            }).catch((error) => {console.log(error);});
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
 }
