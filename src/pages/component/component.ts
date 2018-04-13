@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import {ActionSheetController, IonicPage, ModalController, NavController, NavParams, Platform} from 'ionic-angular';
+import {
+  ActionSheetController, AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams,
+  Platform, ToastController
+} from 'ionic-angular';
 
 /**
  * Generated class for the ComponentPage page.
@@ -14,12 +17,20 @@ import {ActionSheetController, IonicPage, ModalController, NavController, NavPar
   templateUrl: 'component.html',
 })
 export class ComponentPage {
+  private accountData = {
+    name:'',
+    email:''
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public actionSheetCtrl: ActionSheetController,
               public platform: Platform,
               public actionsheetCtrl: ActionSheetController,
-              public modalCtrl:ModalController) {
+              public modalCtrl:ModalController,
+              public alertCtrl:AlertController,
+              public toastCtrl:ToastController,
+              public loadingCtrl:LoadingController
+              ) {
   }
 
   ionViewDidLoad() {
@@ -85,4 +96,44 @@ export class ComponentPage {
     this.navCtrl.push("slidePage");
   }
 
+  promptAlert() {
+    let prompt = this.alertCtrl.create({
+      title:'Login',
+      message:"이름과 E메일을 입력하세요",
+      inputs:[
+        {name:'name',placeholder:'Name 입력'},
+        {name:'email',placeholder:'Email 입력'}
+      ],
+      buttons:[
+        {text:'취소',handler: data => {console.log('Cancel Clicked '+ data)}},
+        {text:'저장',handler: data => {
+            this.accountData = {name:data.name,email:data.email}
+            this.navCtrl.push('navPage',{account:this.accountData});
+          }}
+      ]
+    });
+    prompt.present();
+    console.log(this.accountData);
+  }
+
+  toast() {
+    let toast = this.toastCtrl.create({
+      message:'3초 동안 보였다가 사라집니다',
+      duration:3000,
+      position:'top',
+    });
+    toast.present();
+  }
+
+  loading() {
+    let loading = this.loadingCtrl.create({
+      content:'잠시만 기다려주세요...'
+    });
+
+    loading.present();
+
+    setTimeout(() =>{
+      loading.dismiss();
+    },3000);
+  }
 }
