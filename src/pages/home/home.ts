@@ -17,13 +17,15 @@ export class HomePage {
 
   items = [
     {"id":1,name:"Component"},
-    {"id":2,name:"두번째 Item"},
+    {"id":2,name:"Database"},
     {"id":3,name:"세번째 Item"},
   ]
 
   itemSelected(item) {
     if(item.id === 1){
       this.navCtrl.push("componentPage");
+    }else if(item.id === 2) {
+      this.navCtrl.push("databasePage");
     }
   }
 
