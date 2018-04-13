@@ -11,8 +11,17 @@
     that are going to primarily use a Tabbed UI.
   </p>
   <ion-list>
-    <ion-item *ngFor="let item of items">
+    <ion-item *ngFor="let item of items" (click)="itemSelected(item)">
       {{item.name}}
     </ion-item>
   </ion-list>
+
+  <p>
+    <ion-item>
+      <ion-label>사용자 이름</ion-label>
+      <ion-input type="text" [(ngModel)]="userName"></ion-input>
+    </ion-item>
+    {{userName}}
+  </p>
+  <button ion-button full [disabled]="disabledSwitch" (click)="clickButton($event)">My Button</button>
 </ion-content>
