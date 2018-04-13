@@ -22,7 +22,6 @@ export class HomePage {
   ]
 
   itemSelected(item) {
-    alert(item.id);
     if(item.id === 1){
       this.navCtrl.push("componentPage");
     }
