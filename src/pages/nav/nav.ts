@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AccountInterface} from "../../interfaces/account";
 
 /**
  * Generated class for the NavPage page.
@@ -14,10 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'nav.html',
 })
 export class NavPage {
-  private accountData = {
-    name:'',
-    email:''
-  }
+  private accountData = {} as AccountInterface;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

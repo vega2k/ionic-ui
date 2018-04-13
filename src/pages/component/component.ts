@@ -3,6 +3,8 @@ import {
   ActionSheetController, AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams,
   Platform, ToastController
 } from 'ionic-angular';
+import {LoadingProvider} from "../../providers/loading/loading";
+import {AccountInterface} from "../../interfaces/account";
 
 /**
  * Generated class for the ComponentPage page.
@@ -17,19 +19,16 @@ import {
   templateUrl: 'component.html',
 })
 export class ComponentPage {
-  private accountData = {
-    name:'',
-    email:''
-  }
+  private accountData = {} as AccountInterface;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public actionSheetCtrl: ActionSheetController,
               public platform: Platform,
-              public actionsheetCtrl: ActionSheetController,
               public modalCtrl:ModalController,
               public alertCtrl:AlertController,
               public toastCtrl:ToastController,
-              public loadingCtrl:LoadingController
+              public loadingCtrl:LoadingController,
+              public loadingProvicer:LoadingProvider
               ) {
   }
 
@@ -38,7 +37,7 @@ export class ComponentPage {
   }
 
   actionSheet() {
-    let actionSheet = this.actionsheetCtrl.create({
+    let actionSheet = this.actionSheetCtrl.create({
       title: 'Albums',
       cssClass: 'action-sheets-basic-page',
       buttons: [
@@ -126,14 +125,20 @@ export class ComponentPage {
   }
 
   loading() {
-    let loading = this.loadingCtrl.create({
-      content:'잠시만 기다려주세요...'
-    });
+    // let loading = this.loadingCtrl.create({
+    //   content:'잠시만 기다려주세요...'
+    // });
+    //
+    // loading.present();
+    //
+    // setTimeout(() =>{
+    //   loading.dismiss();
+    // },3000);
 
-    loading.present();
+    this.loadingProvicer.show();
 
-    setTimeout(() =>{
-      loading.dismiss();
+    setTimeout(() => {
+      this.loadingProvicer.hide()
     },3000);
   }
 }
